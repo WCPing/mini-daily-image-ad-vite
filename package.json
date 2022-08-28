@@ -45,11 +45,12 @@
     "@dcloudio/uni-mp-toutiao": "3.0.0-alpha-3040820220424001",
     "@dcloudio/uni-mp-weixin": "3.0.0-alpha-3040820220424001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3040820220424001",
+    "flyio": "^0.6.14",
+    "sass": "^1.50.0",
+    "sass-loader": "^12.6.0",
     "vue": "^3.2.37",
     "vue-i18n": "^9.1.9",
-    "vuex": "^4.0.2",
-    "sass": "^1.50.0",
-    "sass-loader": "^12.6.0"
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@dcloudio/types": "^3.0.7",

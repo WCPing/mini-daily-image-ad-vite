@@ -1,5 +1,7 @@
 import { onLoad } from '@dcloudio/uni-app'
 import { ref, getCurrentInstance, onMounted, computed } from 'vue'
+import HomeApi from '@/http/home/HomeApi'
+
 export default {
   setup() {
     const instance = getCurrentInstance() // 获取组件实例
@@ -9,7 +11,7 @@ export default {
     const oldId = ref(-1)
     const startPage = ref(0)
     const animationData = ref({})
-    const viewIndex = ref(0)
+    const viewIndex = ref(0);
 
     const onTouchstart = (e: any) => {
       const { touches } = e
@@ -41,35 +43,19 @@ export default {
     })
 
     onLoad(() => {
-      imgList.value = [
-        {
-          id: 1,
-          src: 'https://c-ssl.dtstatic.com/uploads/blog/202109/17/20210917215327_c46ce.thumb.1000_0.jpeg'
-        },
-        {
-          id: 2,
-          src: 'https://c-ssl.dtstatic.com/uploads/blog/202010/02/20201002033539_c24ce.thumb.1000_0.jpg'
-        },
-        {
-          id: 3,
-          src: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-uni-app-doc/6acec660-4f31-11eb-a16f-5b3e54966275.jpg'
-        },
-        {
-          id: 4,
-          src: 'http://n.sinaimg.cn/sinakd20210104ac/300/w1200h700/20210104/a0ce-kherpxx6415428.jpg'
-        },
-        {
-          id: 5,
-          src: 'https://c-ssl.dtstatic.com/uploads/blog/202103/06/20210306130036_b3b5f.thumb.1000_0.jpg'
-        }
-      ]
-
       // getImage(0)
+      getImags()
     })
 
     onMounted(() => {
       getViewHeight()
     })
+
+    const getImags = () => {
+      HomeApi.getImg().then((res: any) => {
+        imgList.value = res.data || []
+      })
+    }
 
     // 滑动动画 0 不移动 -1 上拉 1 下拉
     const setAni = async (status: number) => {
@@ -113,7 +99,7 @@ export default {
     const getViewHeight = () => {
       return new Promise((resolve) => {
         const query = uni.createSelectorQuery().in(instance)
-        query.select('.item-1').boundingClientRect()
+        query.select('.ani-box').boundingClientRect()
         query.exec(function (res) {
           if (res.length && res[0]) {
             viewHeight.value = res[0].height

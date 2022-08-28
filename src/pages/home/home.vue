@@ -2,8 +2,8 @@
     <view class="images-box" @touchstart="onTouchstart" @touchend="onTouchEnd">
         <view class="ani-box" :animation="animationData">
             <view v-for="item in imgList" :key="item.id" :class="'item item-' + item.id">
-                <view class="bgImage" :style="{ 'background-image': `url(${item.src})` }"></view>
-                <image :src="item.src" mode="widthFix" :lazy-load="true" @error="handleError"></image>
+                <view class="bgImage" :style="{ 'background-image': `url(${item.url})` }"></view>
+                <image :src="item.url" mode="widthFix" :lazy-load="true" @error="handleError"></image>
                 <div class="icon-zone icon-collect">
                     <image class="icon" src="/static/icons/ic_collect.png"></image>
                 </div>
