@@ -2,7 +2,7 @@
 
 
 
-![二维码]('./../src/static/imgs/qrCode.jpg')
+![二维码]('https://github.com/WCPing/mini-daily-image-ad-vite/blob/main/src/static/imgs/qrCode.jpg')
 
 
 
