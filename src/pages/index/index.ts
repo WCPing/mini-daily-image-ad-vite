@@ -5,7 +5,8 @@ export default {
         const title = ref('每天刷几张，刷出好心情')
 
         setTimeout(() => {
-            uni.switchTab({ url: '/pages/home/home' })
+            // uni.switchTab({ url: '/pages/home/home' })
+            uni.navigateTo({ url: '/pages/home/home' })
         }, 1000)
         
         return {

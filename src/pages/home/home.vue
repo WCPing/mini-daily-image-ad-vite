@@ -3,18 +3,22 @@
         <view class="ani-box" :animation="animationData">
             <view v-for="item in imgList" :key="item.id" :class="'item item-' + item.id">
                 <view class="bgImage" :style="{ 'background-image': `url(${item.url})` }"></view>
-                <image :src="item.url" mode="widthFix" :lazy-load="true" @error="handleError"></image>
-                <div class="icon-zone icon-collect">
-                    <image class="icon" src="/static/icons/ic_collect.png"></image>
-                </div>
-                <div class="icon-zone icon-download">
+                <!-- <image :src="item.url" mode="widthFix" @error="handleError"></image> -->
+                <m-image :src="item.url"></m-image>
+                <view class="icon-zone icon-collect" @click="doCollectImg(item)">
+                    <image class="icon" :src="ifCollect(item.collected)"></image>
+                </view>
+                <view class="icon-zone icon-download" @click="doDownloadImg(item.url)">
                     <image class="icon" src="/static/icons/ic_download.png"></image>
-                </div>
+                </view>
+                <view class="icon-zone icon-mine" @click="doJumoToMine">
+                    <image class="icon" src="/static/icons/ic_mine_selected.png"></image>
+                </view>
             </view>
         </view>
     </view>
 </template>
-<script lang="ts" src="./home"></script>
+<script lang="ts" src="./home.ts"></script>
 
 <style lang="scss">
 .images-box {
@@ -22,6 +26,8 @@
     height: 100vh;
     overflow: hidden;
     position: relative;
+    background: linear-gradient(135deg, #ee9ca7, #ffdde1 , #6DD5FA);
+    background-size: 100% 100%;
 
     .ani-box {
         position: absolute;
@@ -30,7 +36,10 @@
         left: 0;
         right: 0;
         transform: translateY(0px);
-        z-index: -1;
+
+        image {
+            will-change: transform;
+        }
 
         .item {
             width: 100%;
@@ -57,7 +66,7 @@
 
             .icon-zone {
                 position: absolute;
-                right: 10rpx;
+                right: 20rpx;
                 width: 80rpx;
                 height: 80rpx;
                 display: flex;
@@ -72,11 +81,15 @@
             }
 
             .icon-collect {
-                bottom: 150rpx;
+                bottom: 280rpx;
             }
 
             .icon-download {
-                bottom: 30rpx;
+                bottom: 180rpx;
+            }
+
+            .icon-mine {
+                bottom: 80rpx;
             }
         }
     }
