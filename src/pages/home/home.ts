@@ -1,4 +1,4 @@
-import { onLoad, onPullDownRefresh } from '@dcloudio/uni-app'
+import { onShow, onLoad, onPullDownRefresh, onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
 import { ref, getCurrentInstance, onMounted, computed } from 'vue'
 import HomeApi from '@/http/home/HomeApi'
 import { useImgStore } from '@/store'
@@ -29,6 +29,13 @@ export default {
       return collected ? '/static/icons/ic_collected.png' : '/static/icons/ic_collect.png'
     })
 
+    onShow(() => {
+      uni.showShareMenu({
+        withShareTicket: true,
+        success() {}
+      })
+    })
+
     onLoad(() => {
       getImags()
     })
@@ -42,10 +49,42 @@ export default {
       getImags()
     })
 
+    // 页面分享 onShareAppMessage
+    // 分享当前图片
+    onShareAppMessage(() => {
+      // imgList.value[viewIndex.value].url
+      return {
+        title: '每天刷几张美图, 生活真的很满足',
+        path: 'pages/index/index',
+        imageUrl: '/src/static/logo.jpg'
+      }
+    })
+
+    // 分享到朋友圈
+    onShareTimeline(() => {
+      return {
+        title: '每天刷几张美图, 生活真的很满足',
+        query: '',
+        imageUrl: '/src/static/logo.jpg'
+      }
+    })
+
+    // 滑动开始
     const onTouchstart = (e: any) => {
       const { touches } = e
       const { pageY } = touches[0]
       startPage.value = pageY
+    }
+
+    // 滑动中
+    // 图片有一种跟随感
+    const onTouchMove = (e: any) => {
+      const { changedTouches } = e
+      const { pageY } = changedTouches[0]
+      const diff = pageY - startPage.value
+      if (diff < 0) {
+        // 上滑， 进入下一个
+      }
     }
 
     // 滑动结束
@@ -160,7 +199,8 @@ export default {
 
     const doDownloadImg = (url: string) => {
       // todo 下载或收藏需先判断有没有获取用户信息，以便入库
-      checkPermissions(downLoadIm(url))
+      // checkPermissions(downLoadIm(url))
+      downLoadIm(url)
     }
 
     const downLoadIm = (imgUrl: string) => {
@@ -185,35 +225,8 @@ export default {
                 title: '已保存到相册'
               })
             },
-            fail(err) {
+            fail() {
               uni.hideLoading()
-              if (
-                err.errMsg === 'saveImageToPhotosAlbum:fail:auth denied' ||
-                err.errMsg === 'saveImageToPhotosAlbum:fail auth deny' ||
-                err.errMsg === 'saveImageToPhotosAlbum:fail authorize no response'
-              ) {
-                // 这边微信做过调整，必须要在按钮中触发，因此需要在弹框回调中进行调用
-                uni.showModal({
-                  title: '提示',
-                  content: '请授权保存到相册',
-                  showCancel: false,
-                  success() {
-                    uni.openSetting({
-                      success(openres) {
-                        console.log('openres', openres)
-                        if (openres.authSetting['scope.writePhotosAlbum']) {
-                          console.log('获取权限成功，再次点击图片即可保存')
-                        } else {
-                          console.log('获取权限失败，无法保存到相册哦~')
-                        }
-                      },
-                      fail(failerr) {
-                        console.log('failerr', failerr)
-                      }
-                    })
-                  }
-                })
-              }
             }
           })
         },
@@ -290,7 +303,7 @@ export default {
       // todo 下载或收藏需先判断有没有获取用户信息，以便入库
       if (!img.collected) {
         // 未收藏， 添加收藏
-        img.collectDate = new Date()
+        img.collectDate = '2022-08-08'
         img.collected = true
         imgStore.collectImg(img)
         uni.showToast({
@@ -312,17 +325,22 @@ export default {
     // 去我的页面
     const doJumoToMine = () => {
       // 需判断用户有没有授权信息
-      // uni.navigateTo({ url: '/pages/mine/mine' })
+      uni.navigateTo({ url: '/pages/mine/mine' })
     }
 
     // 图片预加载， 用默认图片占位
     // https://www.jianshu.com/p/9c01b944bebb
+
+    // 分享功能，图片改为当前图片（目前是page缩略图）
+
+    // 上滑体验修改， 抽出滑动公共代码
 
     return {
       imgList,
       animationData,
       onTouchstart,
       onTouchEnd,
+      onTouchMove,
       getBackUrl,
       ifCollect,
       handleError,

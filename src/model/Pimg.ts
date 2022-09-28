@@ -8,8 +8,8 @@ interface Img {
   topic?: string
   recommend?: boolean,
   collected?: boolean,
-  createDate?: Date,
-  collectDate?: null | Date
+  createDate?: string,
+  collectDate?: null | string
 }
 
 export default class Pimg implements Img {
@@ -22,6 +22,6 @@ export default class Pimg implements Img {
     topic?: string
     recommend?: boolean = false
     collected?: boolean = false
-    createDate?: Date
-    collectDate?: null | Date
+    createDate?: string
+    collectDate?: null | string
 }

@@ -1,5 +1,5 @@
 <template>
-    <view class="images-box" @touchstart="onTouchstart" @touchend="onTouchEnd">
+    <view class="images-box" @touchstart="onTouchstart" @touchmove="onTouchMove" @touchend="onTouchEnd">
         <view class="ani-box" :animation="animationData">
             <view v-for="item in imgList" :key="item.id" :class="'item item-' + item.id">
                 <view class="bgImage" :style="{ 'background-image': `url(${item.url})` }"></view>
