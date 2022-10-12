@@ -1,6 +1,6 @@
 {
     "name" : "口袋图库",
-    "appid" : "wx6f73d9102792f183",
+    "appid" : "__UNI__F900374",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -43,7 +43,16 @@
             /* ios打包配置 */
             "ios" : {},
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "ad" : {
+                    "360" : {},
+                    "csj" : {},
+                    "gdt" : {},
+                    "ks-content" : {},
+                    "hw" : {},
+                    "bd" : {}
+                }
+            }
         }
     },
     /* 快应用特有相关 */
@@ -65,8 +74,8 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "uniStatistics": {  
-        "enable": false
+    "uniStatistics" : {
+        "enable" : false
     },
     "vueVersion" : "3"
 }

@@ -1,5 +1,5 @@
 import { onShow, onLoad, onPullDownRefresh, onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
-import { ref, getCurrentInstance, onMounted, computed } from 'vue'
+import { ref, getCurrentInstance, onMounted, computed, nextTick } from 'vue'
 import HomeApi from '@/http/home/HomeApi'
 import { useImgStore } from '@/store'
 import { storeToRefs } from 'pinia'
@@ -20,6 +20,9 @@ export default {
 
     const imgStore = useImgStore()
     const { imgs } = storeToRefs(imgStore)
+
+    const isAdLoading = ref<boolean>(false)
+    const adRewardedVideo = ref<any>(null)
 
     const getBackUrl = computed(() => (url: string) => {
       return `url(${url})`
@@ -42,6 +45,7 @@ export default {
 
     onMounted(() => {
       getViewHeight()
+      // onAdInit()
     })
 
     // 下拉刷新
@@ -200,7 +204,8 @@ export default {
     const doDownloadImg = (url: string) => {
       // todo 下载或收藏需先判断有没有获取用户信息，以便入库
       // checkPermissions(downLoadIm(url))
-      downLoadIm(url)
+      showAd()
+      // downLoadIm(url)
     }
 
     const downLoadIm = (imgUrl: string) => {
@@ -328,12 +333,85 @@ export default {
       uni.navigateTo({ url: '/pages/mine/mine' })
     }
 
+    // todo
     // 图片预加载， 用默认图片占位
     // https://www.jianshu.com/p/9c01b944bebb
 
     // 分享功能，图片改为当前图片（目前是page缩略图）
-
     // 上滑体验修改， 抽出滑动公共代码
+
+    const onAdInit = () => {
+      //   AD.load({
+      //     adpid: '1719130763',
+      //     adUnitId: '1719130763',
+      //     unitId: '1719130763',
+      //     adType: 'RewardedVideo'
+      //   }, (r: any) => {
+      //     console.log('load: ', r)
+      //   }, (e: any) => {
+      //     console.log('err: ', e)
+      //   })
+      isAdLoading.value = true
+      adRewardedVideo.value.load()
+    }
+
+    // 展示广告
+    // const showAd = () => {
+    //   AD.show(
+    //     {
+    //       adpid: '1719130763',
+    //       adUnitId: '1719130763',
+    //       adType: 'RewardedVideo'
+    //     },
+    //     (res: any) => {
+    //       // 用户点击了【关闭广告】按钮
+    //       if (res && res.isEnded) {
+    //         // 正常播放结束
+    //         console.log('onClose ' + res.isEnded)
+    //       } else {
+    //         // 播放中途退出
+    //         console.log('onClose ' + res.isEnded)
+    //       }
+    //     },
+    //     (err: any) => {
+    //       // 广告加载错误
+    //       console.log(err)
+    //     }
+    //   )
+    // }
+
+    // 展示广告
+    const showAd = () => {
+      if (isAdLoading.value) {
+        return
+      }
+      adRewardedVideo.value.show()
+    }
+
+    const onAdLoad = (e: any) => {
+      isAdLoading.value = false
+      console.log('广告数据加载成功')
+    }
+
+    const onAdClose = (e: any) => {
+      const detail = e.detail
+      // 用户点击了【关闭广告】按钮
+      if (detail && detail.isEnded) {
+        // 正常播放结束
+        console.log('onClose ' + detail.isEnded)
+      } else {
+        // 播放中途退出
+        console.log('onClose ' + detail.isEnded)
+      }
+      // isAdLoading.value = true
+      // adRewardedVideo.value.load();
+    }
+
+    // 广告加载失败
+    const onAdError = (e: any) => {
+      console.log(e.detail)
+      isAdLoading.value = false
+    }
 
     return {
       imgList,
@@ -346,7 +424,11 @@ export default {
       handleError,
       doDownloadImg,
       doCollectImg,
-      doJumoToMine
+      doJumoToMine,
+      onAdLoad,
+      onAdClose,
+      onAdError,
+      adRewardedVideo
     }
   }
 }

@@ -3,6 +3,10 @@
         <!-- 头像 -->
         <!-- <view class="avatar"></view> -->
 
+        <view class="ad-view">
+            <ad adpid="1991633508" unit-id="1991633508" @load="onAdLoad" @close="onAdClose" @error="onAdError"></ad>
+        </view>
+
         <view class="content">
             <view class="cell" @click="doJumpToCollect">
                 <view class="left-icon">
@@ -15,7 +19,7 @@
             </view>
         </view>
 
-        <view class="version">版本号： 0.0.3</view>
+        <view class="version">版本号： {{ version }}</view>
     </view>
 </template>
 <script lang="ts" src="./mine"></script>
@@ -23,7 +27,6 @@
 .mine-page {
     width: 100%;
     height: 100vh;
-    position: relative;
 
     .avatar {
         width: 160rpx;
@@ -36,7 +39,7 @@
     }
 
     .content {
-        margin-top: 100rpx;
+        margin-top: 40rpx;
     }
 
     .cell {
@@ -106,11 +109,16 @@
         transform: scaleY(0.5);
     }
 
+    .ad-view {
+        background-color: #ffffff;
+        margin-bottom: 10px;
+    }
+
     .version {
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 50rpx;
+        bottom: 100rpx;
         width: 100%;
         text-align: center;
         font-size: 26rpx;

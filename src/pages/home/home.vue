@@ -16,6 +16,15 @@
                 </view>
             </view>
         </view>
+        <!-- <ad-rewarded-video ref="adRewardedVideo" adpid="1719130763" :loadnext="true" :disabled="true" v-slot:default="{loading, error}"
+            @load="onAdLoad" @close="onAdClose" @error="onAdError">
+            <view class="ad-error" v-if="error">{{error}}</view>
+        </ad-rewarded-video> -->
+        <!-- <ad-rewarded-video adpid="1719130763" :loadnext="true" v-slot:default="{loading, error}" @load="onAdLoad" @close="onAdClose"
+            @error="onAdError">
+            <button :disabled="loading" :loading="loading">显示广告</button>
+            <view v-if="error">{{error}}</view>
+        </ad-rewarded-video> -->
     </view>
 </template>
 <script lang="ts" src="./home.ts"></script>
@@ -26,8 +35,12 @@
     height: 100vh;
     overflow: hidden;
     position: relative;
-    background: linear-gradient(135deg, #ee9ca7, #ffdde1 , #6DD5FA);
+    background: linear-gradient(135deg, #ee9ca7, #ffdde1, #6dd5fa);
     background-size: 100% 100%;
+    .ad-error {
+        color: orangered;
+        margin-top: 5px;
+    }
 
     .ani-box {
         position: absolute;
