@@ -4,7 +4,7 @@
         <!-- <view class="avatar"></view> -->
 
         <view class="ad-view">
-            <ad adpid="1991633508" unit-id="1991633508" @load="onAdLoad" @close="onAdClose" @error="onAdError"></ad>
+            <ad adpid="1991633508" ad-intervals="60" @load="onAdLoad" @close="onAdClose" @error="onAdError"></ad>
         </view>
 
         <view class="content">

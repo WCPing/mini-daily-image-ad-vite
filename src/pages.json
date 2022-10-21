@@ -9,7 +9,7 @@
 				"navigationBarTitleText": "口袋图片"
 			}
 		},
-		{
+        {
 			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "口袋图片",
@@ -37,7 +37,7 @@
             "version": "1.0.9", 
             "provider": "wx0e203209e27b1e66"
         },
-        "uni-calendar": {
+        "uni-ad": {
             "version": "1.0.0",
             "provider": "wxf72d316417b6767f"
         }
