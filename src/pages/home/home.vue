@@ -8,6 +8,11 @@
                 <view class="icon-zone icon-collect" @click="doCollectImg(item)">
                     <image class="icon" :src="ifCollect(item.collected)"></image>
                 </view>
+                <!-- 左下角文案 -->>
+                <view class="text-wrapper" v-if="item.title || item.subTitle">
+                    <view class="title">{{ item.title }}</view>
+                    <view class="sub-text">{{ item.subTitle }}</view>
+                </view>
                 <view class="icon-zone icon-download" @click="doDownloadImg(item.url)">
                     <image class="icon" src="/static/icons/ic_download.png"></image>
                 </view>
@@ -75,6 +80,30 @@
                 filter: blur(30px);
                 opacity: 0.9;
                 z-index: -1;
+            }
+
+            @mixin linesOverflow($lineNum) {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: $lineNum;
+            }
+
+            .text-wrapper {
+                position: absolute;
+                left: 40rpx;
+                bottom: 100rpx;
+                width: 600rpx;
+                color: #ffffff;
+                .title {
+                    font-size: 18px;
+                    @include linesOverflow(2);
+                }
+                .sub-text {
+                    margin-top: 20rpx;
+                    @include linesOverflow(2);
+                }
             }
 
             .icon-zone {

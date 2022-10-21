@@ -9,3 +9,4 @@ declare module '*.vue' {
 
 declare module 'flyio/dist/npm/wx.js'
 declare module 'uview-ui'
+declare module '@/components/log/log.js'
